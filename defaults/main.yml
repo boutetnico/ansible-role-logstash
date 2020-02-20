@@ -1,0 +1,28 @@
+---
+logstash_dependencies:
+  - apt-transport-https
+  - gnupg
+
+logstash_use_oss: false
+
+logstash_package_state: present
+
+logstash_user: logstash
+logstash_group: logstash
+logstash_secondary_groups: []
+
+logstash_path_data: /var/lib/logstash
+logstash_path_config: /etc/logstash/conf.d
+logstash_path_logs: /var/log/logstash
+
+logstash_log_level: info
+logstash_log4j2_template: log4j2.properties.j2
+
+logstash_conf_fileglob: files/conf.d/*.conf
+
+logstash_plugins: []
+# - name: logstash-input-github
+#   version: 3.0.8
+# - name: logstash-filter-dissect
+
+logstash_jvm_heap_size: 1g

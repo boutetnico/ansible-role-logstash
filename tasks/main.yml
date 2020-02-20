@@ -1,0 +1,85 @@
+---
+- name: Install dependencies
+  apt:
+    name: "{{ logstash_dependencies }}"
+    state: present
+
+- name: Add Elastic key
+  apt_key:
+    state: present
+    url: "{{ logstash_signing_key }}"
+
+- name: Manage logstash APT repository
+  apt_repository:
+    repo: "{{ logstash_repository }}"
+    state: "{{ 'absent' if logstash_use_oss else 'present' }}"
+
+- name: Manage logstash OSS APT repository
+  apt_repository:
+    repo: "{{ logstash_oss_repository }}"
+    state: "{{ 'present' if logstash_use_oss else 'absent' }}"
+
+- name: Install Logstash
+  apt:
+    name: "{{ logstash_package_name }}"
+    state: "{{ logstash_package_state }}"
+
+- name: Ensure Logstash data directory exists
+  file:
+    group: "{{ logstash_group }}"
+    mode: 0755
+    owner: "{{ logstash_user }}"
+    path: "{{ logstash_path_data }}"
+    state: directory
+
+- name: Ensure Logstash log directory exists
+  file:
+    group: root
+    mode: 0755
+    owner: "{{ logstash_user }}"
+    path: "{{ logstash_path_logs }}"
+    state: directory
+
+- name: Ensure Logstash configuration files exist
+  template:
+    dest: "/etc/logstash/{{ item | basename }}"
+    group: root
+    mode: 0644
+    owner: root
+    src: "{{ item }}"
+  with_items:
+    - logstash.yml.j2
+    - "{{ logstash_log4j2_template }}"
+    - jvm.options.j2
+  notify: restart logstash
+
+- name: Install Logstash pipelines configuration files
+  template:
+    dest: "/etc/logstash/conf.d/"
+    group: root
+    mode: 0644
+    owner: root
+    src: "{{ item }}"
+  with_fileglob: "{{ logstash_conf_fileglob }}"
+  notify: restart logstash
+
+- name: Ensure Logstash user belongs to its secondary groups
+  user:
+    name: "{{ logstash_user }}"
+    group: "{{ logstash_group }}"
+    groups: "{{ logstash_secondary_groups }}"
+  notify: restart logstash
+
+- name: Ensure Logstash plugins are installed
+  logstash_plugin_fixed:
+    name: "{{ item.name }}"
+    state: present
+    version: "{{ item.version | d(omit) }}"
+  with_items: "{{ logstash_plugins }}"
+  notify: restart logstash
+
+- name: Ensure Logstash is started and starts at boot
+  service:
+    enabled: true
+    name: logstash
+    state: started

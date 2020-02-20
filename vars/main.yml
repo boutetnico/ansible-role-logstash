@@ -1,0 +1,8 @@
+---
+logstash_signing_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+logstash_repository: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+
+logstash_oss_repository: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
+
+logstash_package_name: "logstash{{ '-oss' if logstash_use_oss else '' }}"
