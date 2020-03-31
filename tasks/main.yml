@@ -42,7 +42,7 @@
 
 - name: Ensure Logstash configuration files exist
   template:
-    dest: "/etc/logstash/{{ item | basename }}"
+    dest: "/etc/logstash/{{ item | basename | replace('.j2', '') }}"
     group: root
     mode: 0644
     owner: root
