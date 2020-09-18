@@ -31,6 +31,14 @@ platforms:
       - /run/lock
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: ansible-role-logstash-ubuntu-2004
+    image: ubuntu:20.04
+    command: /lib/systemd/systemd
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
 lint: |
     yamllint .
