@@ -7,3 +7,4 @@
       apt:
         name: default-jre-headless
         state: present
+        update_cache: true
