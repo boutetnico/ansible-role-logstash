@@ -1,12 +1,15 @@
+[![tests](https://github.com/boutetnico/ansible-role-logstash/workflows/Test%20ansible%20role/badge.svg)](https://github.com/boutetnico/ansible-role-logstash/actions?query=workflow%3A%22Test+ansible+role%22)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-boutetnico.logstash-blue.svg)](https://galaxy.ansible.com/boutetnico/logstash)
+
 ansible-role-logstash
 =====================
 
-This role installs and configures Logstash.
+This role installs and configures [Logstash](https://www.elastic.co/guide/en/logstash/current/index.html).
 
 Requirements
 ------------
 
-Ansible 2.6 or newer.
+Ansible 2.7 or newer.
 
 Supported Platforms
 -------------------
