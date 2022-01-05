@@ -27,7 +27,6 @@ Role Variables
 | logstash_dependencies        | true     | `[apt-transport-https, gnupg]`  | list      |                                               |
 | logstash_use_oss             | true     | `false`                         | bool      | Whether to use Open Source version or not.    |
 | logstash_package_state       | true     | `present`                       | string    | Use `latest` to upgrade logstash.             |
-| logstash_user                | true     | `logstash`                      | bool      |                                               |
 | logstash_user                | true     | `logstash`                      | string    |                                               |
 | logstash_group               | true     | `logstash`                      | string    |                                               |
 | logstash_secondary_groups    | true     | `[]`                            | list      |                                               |
