@@ -1,33 +1,33 @@
 ---
 - name: Install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ logstash_dependencies }}"
     state: present
     update_cache: true
 
 - name: Add Elastic key
-  apt_key:
+  ansible.builtin.apt_key:
     state: present
     url: "{{ logstash_signing_key }}"
 
 - name: Manage logstash APT repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ logstash_repository }}"
     state: "{{ 'absent' if logstash_use_oss else 'present' }}"
 
 - name: Manage logstash OSS APT repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ logstash_oss_repository }}"
     state: "{{ 'present' if logstash_use_oss else 'absent' }}"
 
 - name: Install Logstash
-  apt:
+  ansible.builtin.apt:
     name: "{{ logstash_package_name }}"
     state: "{{ logstash_package_state }}"
-  notify: restart logstash
+  notify: Restart logstash
 
 - name: Ensure Logstash data directory exists
-  file:
+  ansible.builtin.file:
     group: "{{ logstash_group }}"
     mode: 0755
     owner: "{{ logstash_user }}"
@@ -35,7 +35,7 @@
     state: directory
 
 - name: Ensure Logstash log directory exists
-  file:
+  ansible.builtin.file:
     group: root
     mode: 0755
     owner: "{{ logstash_user }}"
@@ -43,45 +43,47 @@
     state: directory
 
 - name: Ensure Logstash configuration files exist
-  template:
+  ansible.builtin.template:
     dest: "/etc/logstash/{{ item | basename | replace('.j2', '') }}"
     group: root
     mode: 0644
     owner: root
     src: "{{ item }}"
-  with_items:
+  loop:
     - logstash.yml.j2
     - "{{ logstash_log4j2_template }}"
     - jvm.options.j2
-  notify: restart logstash
+  notify: Restart logstash
 
 - name: Install Logstash pipelines configuration files
-  template:
+  ansible.builtin.template:
     dest: "/etc/logstash/conf.d/"
     group: root
     mode: 0644
     owner: root
     src: "{{ item }}"
   with_fileglob: "{{ logstash_conf_fileglob }}"
-  notify: restart logstash
+  notify: Restart logstash
 
 - name: Ensure Logstash user belongs to its secondary groups
-  user:
+  ansible.builtin.user:
     name: "{{ logstash_user }}"
     group: "{{ logstash_group }}"
     groups: "{{ logstash_secondary_groups }}"
-  notify: restart logstash
+  notify: Restart logstash
 
 - name: Ensure Logstash plugins are installed
   logstash_plugin_fixed:
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version | d(omit) }}"
-  with_items: "{{ logstash_plugins }}"
-  notify: restart logstash
+  loop: "{{ logstash_plugins }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: Restart logstash
 
 - name: Ensure Logstash is started and starts at boot
-  service:
+  ansible.builtin.service:
     enabled: true
     name: logstash
     state: started
