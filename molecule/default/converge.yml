@@ -3,7 +3,7 @@
   hosts: all
 
   roles:
-    - role: ansible-role-logstash
+    - role: boutetnico.logstash
       logstash_plugins:
         - name: logstash-input-github
           version: 3.0.8
