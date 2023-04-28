@@ -29,7 +29,7 @@
 - name: Ensure Logstash data directory exists
   ansible.builtin.file:
     group: "{{ logstash_group }}"
-    mode: 0755
+    mode: "0755"
     owner: "{{ logstash_user }}"
     path: "{{ logstash_path_data }}"
     state: directory
@@ -37,7 +37,7 @@
 - name: Ensure Logstash log directory exists
   ansible.builtin.file:
     group: root
-    mode: 0755
+    mode: "0755"
     owner: "{{ logstash_user }}"
     path: "{{ logstash_path_logs }}"
     state: directory
@@ -46,7 +46,7 @@
   ansible.builtin.template:
     dest: "/etc/logstash/{{ item | basename | replace('.j2', '') }}"
     group: root
-    mode: 0644
+    mode: "0644"
     owner: root
     src: "{{ item }}"
   loop:
@@ -59,7 +59,7 @@
   ansible.builtin.template:
     dest: "/etc/logstash/conf.d/"
     group: root
-    mode: 0644
+    mode: "0644"
     owner: root
     src: "{{ item }}"
   with_fileglob: "{{ logstash_conf_fileglob }}"
