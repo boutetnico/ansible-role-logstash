@@ -37,6 +37,7 @@ Role Variables
 | logstash_conf_fileglob       | true     | `files/*.conf`                  | string    |                                               |
 | logstash_plugins             | true     | `[]`                            | list      |                                               |
 | logstash_jvm_heap_size       | true     | `1g`                            | string    |                                               |
+| logstash_extra_config        | true     | `{}`                            | dict      |                                               |
 
 Dependencies
 ------------

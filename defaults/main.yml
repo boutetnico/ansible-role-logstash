@@ -26,3 +26,5 @@ logstash_plugins: []
 # - name: logstash-filter-dissect
 
 logstash_jvm_heap_size: 1g
+
+logstash_extra_config: {}
