@@ -5,25 +5,19 @@
     state: present
     update_cache: true
 
-- name: Add Elastic key
-  ansible.builtin.apt_key:
-    state: present
-    url: "{{ logstash_signing_key }}"
-
-- name: Manage logstash APT repository
-  ansible.builtin.apt_repository:
-    repo: "{{ logstash_repository }}"
-    state: "{{ 'absent' if logstash_use_oss else 'present' }}"
-
-- name: Manage logstash OSS APT repository
-  ansible.builtin.apt_repository:
-    repo: "{{ logstash_oss_repository }}"
-    state: "{{ 'present' if logstash_use_oss else 'absent' }}"
+- name: Configure Elastic APT repository
+  ansible.builtin.deb822_repository:
+    components: main
+    name: elastic
+    signed_by: "{{ logstash_apt_signed_by }}"
+    suites: stable
+    uris: "{{ logstash_apt_uris }}"
 
 - name: Install Logstash
   ansible.builtin.apt:
     name: "{{ logstash_package_name }}"
     state: "{{ logstash_package_state }}"
+    update_cache: true
   notify: Restart logstash
 
 - name: Ensure Logstash data directory exists
