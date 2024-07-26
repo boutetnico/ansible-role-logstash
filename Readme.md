@@ -9,7 +9,7 @@ This role installs and configures [Logstash](https://www.elastic.co/guide/en/log
 Requirements
 ------------
 
-Ansible 2.10 or newer.
+Ansible 2.15 or newer.
 
 Supported Platforms
 -------------------
@@ -24,8 +24,7 @@ Role Variables
 
 | Variable                     | Required | Default                         | Choices   | Comments                                      |
 |------------------------------|----------|---------------------------------|-----------|-----------------------------------------------|
-| logstash_dependencies        | true     | `[apt-transport-https, gnupg]`  | list      |                                               |
-| logstash_use_oss             | true     | `false`                         | bool      | Whether to use Open Source version or not.    |
+| logstash_dependencies        | true     |                                 | list      | See `defaults/main.yml`.                      |
 | logstash_package_state       | true     | `present`                       | string    | Use `latest` to upgrade logstash.             |
 | logstash_user                | true     | `logstash`                      | string    |                                               |
 | logstash_group               | true     | `logstash`                      | string    |                                               |

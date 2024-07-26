@@ -2,8 +2,7 @@
 logstash_dependencies:
   - apt-transport-https
   - gnupg
-
-logstash_use_oss: false
+  - python3-debian
 
 logstash_package_state: present
 
