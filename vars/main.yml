@@ -1,6 +1,6 @@
 ---
 logstash_apt_signed_by: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-logstash_apt_uris: https://artifacts.elastic.co/packages/8.x/apt
+logstash_apt_uris: https://artifacts.elastic.co/packages/9.x/apt
 
 logstash_package_name: logstash
