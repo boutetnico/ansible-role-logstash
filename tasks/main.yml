@@ -48,6 +48,7 @@
     - "{{ logstash_log4j2_template }}"
     - jvm.options.j2
   notify: Restart logstash
+  no_log: true
 
 - name: Install Logstash pipelines configuration files
   ansible.builtin.template:
@@ -58,6 +59,7 @@
     src: "{{ item }}"
   loop: "{{ query('fileglob', logstash_conf_fileglob) }}"
   notify: Restart logstash
+  no_log: true
 
 - name: Ensure Logstash user belongs to its secondary groups
   ansible.builtin.user:
