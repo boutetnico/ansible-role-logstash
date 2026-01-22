@@ -76,7 +76,6 @@ EXAMPLES = """
 
 from ansible.module_utils.basic import AnsibleModule
 
-
 PACKAGE_STATE_MAP = dict(present="install", absent="remove")
 
 
