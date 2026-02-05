@@ -74,7 +74,7 @@ def test_logstash_user_and_group(host):
 @pytest.mark.parametrize(
     "name,version",
     [
-        ("logstash-input-github", "3.0.8"),
+        ("logstash-input-github", "3.0.11"),
         ("logstash-filter-dissect", None),
     ],
 )
