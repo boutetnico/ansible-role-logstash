@@ -69,7 +69,7 @@
   notify: Restart logstash
 
 - name: Ensure Logstash plugins are installed
-  logstash_plugin_fixed:
+  community.general.logstash_plugin:
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version | d(omit) }}"
