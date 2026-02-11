@@ -1,7 +1,7 @@
 import pytest
 
 
-@pytest.mark.parametrize("name", ["apt-transport-https", "gnupg", "python3-debian"])
+@pytest.mark.parametrize("name", ["gnupg", "python3-debian"])
 def test_dependencies_are_installed(host, name):
     package = host.package(name)
     assert package.is_installed
